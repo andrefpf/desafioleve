@@ -8,17 +8,31 @@ from .models import User, Payment
 from .serializers import UserSerializer, PaymentSerializer
 
 
-def get_filters(view, *args):
+def get_filters(view, *fields):
+    ''' Returns a dictionary that maps the desired field
+    to the users input on that field.
+
+    Args:
+        view (ListCreateAPIView) : Django Class.
+        *fields (str) : Fields desired to make a filter.
+    
+    Returns:
+        dict : Dictionary to be user on filter functions.
+    '''
+    
     get = view.request.query_params.get
     return {field : get(field) for field in args if get(field)}
 
 
 class UserList(ListCreateAPIView):
+    ''' Class that set and filter the json output of the API for the endpoint /users.'''
+
     serializer_class = UserSerializer
 
     def get_queryset(self):
-        filters = get_filters(self, 'name', 'cpf', 'birthday', 'average_salary', 
-                            'average_discounts', 'bigger_salary', 'smaller_salary')
+        filters = get_filters(self, 'name', 'cpf', 'birthday', 
+                                    'average_salary', 'average_discounts',
+                                    'bigger_salary', 'smaller_salary')
         queryset = User.objects.all()
         if filters:
             queryset = queryset.filter(**filters)
@@ -26,6 +40,8 @@ class UserList(ListCreateAPIView):
 
 
 class PaymentList(ListCreateAPIView):
+    ''' Class that set and filter the json output of the API for the endpoint /salaries.'''
+
     serializer_class = PaymentSerializer
 
     def get_queryset(self):
@@ -37,6 +53,8 @@ class PaymentList(ListCreateAPIView):
 
 
 class GlobalList(APIView):
+    ''' Class that set the json output of the API for the endpoint /global.'''
+
     def get(self, request):
         average = lambda x: sum(x) / len(x)
         queryset = Payment.objects.all()

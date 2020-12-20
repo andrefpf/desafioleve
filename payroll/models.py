@@ -6,6 +6,8 @@ from .validators import cpf_validator
 
 
 class CPFField(CharField):
+    ''' Field create to handle with CPF numbers.'''
+
     default_validators = [RegexValidator(r'\d{11}', 'CPF must have 11 numerical digits, without dots or dashes.')]
 
     def __init__(self, *args, **kwargs):
@@ -14,6 +16,8 @@ class CPFField(CharField):
 
 
 class User(Model):
+    ''' Database model to represent the User''' 
+
     class Meta:
         db_table = 'user'
 
@@ -49,6 +53,8 @@ class User(Model):
 
 
 class Payment(Model):
+    ''' Database model to represent Payments'''
+    
     class Meta:
         db_table = 'salary'
     
