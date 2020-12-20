@@ -21,7 +21,7 @@ def get_filters(view, *fields):
     '''
     
     get = view.request.query_params.get
-    return {field : get(field) for field in args if get(field)}
+    return {field : get(field) for field in fields if get(field)}
 
 
 class UserList(ListCreateAPIView):
