@@ -9,7 +9,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('name', 'cpf', 'birthday', 'average_salary', 
+        fields = ('pk', 'name', 'cpf', 'birthday', 'average_salary', 
                   'average_discounts', 'bigger_salary', 'smaller_salary')
     
 class PaymentSerializer(serializers.ModelSerializer):
@@ -19,4 +19,4 @@ class PaymentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Payment
-        fields = ('date', 'cpf', 'salary', 'discount')
+        fields = ('pk', 'date', 'cpf', 'salary', 'discount')
