@@ -51,13 +51,13 @@ class UserDetail(RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
 
     def object_exists(self, pk):
-        return Payment.objects.filter(pk=pk).exists()
+        return self.queryset.filter(pk=pk).exists()
     
-    def post(self, request, *args, **kwargs):
+    def post(self, request, pk, format=None):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        if self.object_exists:
+        if self.object_exists(pk):
             return Response(status=status.HTTP_409_CONFLICT)
         else:
             serializer.save(pk=pk)
@@ -88,13 +88,13 @@ class PaymentDetail(RetrieveUpdateDestroyAPIView):
     serializer_class = PaymentSerializer
 
     def object_exists(self, pk):
-        return Payment.objects.filter(pk=pk).exists()
+        return self.queryset.filter(pk=pk).exists()
     
     def post(self, request, pk, format=None):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        if self.object_exists:
+        if self.object_exists(pk):
             return Response(status=status.HTTP_409_CONFLICT)
         else:
             serializer.save(pk=pk)
